@@ -1,6 +1,9 @@
 package com.example.pacod.flickr_app;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,20 +14,20 @@ import android.app.Activity;
 public class MainActivity extends Activity {
     ListView list;
     String[] web = {
-            "Instragam",
-            "Twitter",
-            "Facebook",
-            "Microsoft",
-            "Apple",
-            "Windows",
+            "Football",
+            "Food",
+            "Gym",
+            "Star wars",
+            "Animals",
+            "Instagram",
 
     } ;
     Integer[] imageId = {
-            R.drawable.ig,
-            R.drawable.ig,
-            R.drawable.ig,
-            R.drawable.ig,
-            R.drawable.ig,
+            R.drawable.american,
+            R.drawable.groceries,
+            R.drawable.weight,
+            R.drawable.star,
+            R.drawable.whale,
             R.drawable.ig
 
 
@@ -48,9 +51,17 @@ public class MainActivity extends Activity {
                 String  itemValue    = (String) list.getItemAtPosition(position);
 
 
-                Intent intent = new Intent(MainActivity.this,Photo_gallery.class);
-                intent.putExtra("itemValue", itemValue);
-                startActivity(intent);
+                if (isNetworkConnected(getApplicationContext()))
+                {
+                    Intent intent = new Intent(MainActivity.this,Photo_gallery.class);
+                    intent.putExtra("itemValue", itemValue);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "No hay Conexion ", Toast.LENGTH_SHORT).show();
+                }
+
+
 
                 //Toast.makeText(MainActivity.this, "You Clicked at " + itemValue, Toast.LENGTH_SHORT).show();
 
@@ -58,5 +69,20 @@ public class MainActivity extends Activity {
         });
 
     }
+    private boolean isNetworkConnected(Context context) {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+        if (info == null || !info.isConnected() || !info.isAvailable()) {
+            return false;
+        }
+        return true;
+    }
+
+
+
+
+
 
 }

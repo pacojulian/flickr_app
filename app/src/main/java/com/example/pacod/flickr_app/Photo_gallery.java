@@ -36,6 +36,7 @@ public class Photo_gallery extends AppCompatActivity {
 
     ArrayList<String> id_photo= new ArrayList<>();
     ArrayList<String> url= new ArrayList<>();
+    ArrayList<String> tittle= new ArrayList<>();
 
 
 
@@ -93,12 +94,14 @@ public class Photo_gallery extends AppCompatActivity {
                         String farm = jsonObject.getString("farm");
                         String server = jsonObject.getString("server");
                         String secret = jsonObject.getString("secret");
+                        String tittle1 = jsonObject.getString("title");
 
 
                         String photo ="https://farm"+farm+".staticflickr.com/"+server+"/"+id+"_"+secret+".jpg";
 
                         id_photo.add(id);
                         url.add(photo);
+                        tittle.add(tittle1);
                         Log.d("url",photo);
 
                     }
@@ -109,8 +112,25 @@ public class Photo_gallery extends AppCompatActivity {
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
-                            Toast.makeText(Photo_gallery.this, "" + position,
-                                    Toast.LENGTH_SHORT).show();
+
+
+
+
+                            /*Toast.makeText(Photo_gallery.this, "" + position,
+                                    Toast.LENGTH_SHORT).show();*/
+
+
+                            String photourl=url.get(position);
+                            String tittle2= tittle.get(position);
+
+                            Intent intent = new Intent(Photo_gallery.this,Description.class);
+                            intent.putExtra("photo", photourl);
+                            intent.putExtra("title", tittle2);
+
+                            startActivity(intent);
+
+
+
                         }
                     });
 
